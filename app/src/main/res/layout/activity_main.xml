@@ -32,7 +32,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Business Summary"
+                android:text="Financial Dashboard Overview"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -261,7 +261,7 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Khata & Expense Quick Buttons -->
+            <!-- Khata & Profit & Loss Buttons -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -278,14 +278,14 @@
                     app:icon="@android:drawable/ic_menu_myplaces" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnNavExpenses"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:id="@+id/btnProfitLossReport"
+                    style="@style/Widget.Material3.Button.TonalButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
-                    android:text="Expenses"
-                    app:icon="@android:drawable/ic_menu_recent_history" />
+                    android:text="Profit &amp; Loss"
+                    app:icon="@android:drawable/ic_menu_report_image" />
 
             </LinearLayout>
 
@@ -305,14 +305,14 @@
                     app:icon="@android:drawable/ic_menu_recent_history" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnReceiptSettings"
+                    android:id="@+id/btnNavExpenses"
                     style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
-                    android:text="Printer Settings"
-                    app:icon="@android:drawable/ic_menu_preferences" />
+                    android:text="Expenses"
+                    app:icon="@android:drawable/ic_menu_recent_history" />
 
             </LinearLayout>
 
@@ -518,15 +518,25 @@
 
             </GridLayout>
 
-            <!-- SECTION 3: Cloud & SaaS -->
+            <!-- SECTION 3: Settings & SaaS -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Cloud &amp; SaaS Options"
+                android:text="Settings &amp; SaaS Options"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnReceiptSettings"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:paddingVertical="12dp"
+                android:text="Receipt &amp; Thermal Printer Settings"
+                app:icon="@android:drawable/ic_menu_preferences" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnImportExport"

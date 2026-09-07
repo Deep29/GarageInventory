@@ -11,6 +11,8 @@ import com.deepak.garageinventory.data.local.dao.CustomerInvoiceDao;
 import com.deepak.garageinventory.data.local.dao.CustomerKhataDao;
 import com.deepak.garageinventory.data.local.dao.InvoiceItemDao;
 import com.deepak.garageinventory.data.local.dao.InventoryItemDao;
+import com.deepak.garageinventory.data.local.dao.PurchaseBillDao;
+import com.deepak.garageinventory.data.local.dao.QuotationDao;
 import com.deepak.garageinventory.data.local.dao.StorageBinDao;
 import com.deepak.garageinventory.data.local.dao.StockTransactionDao;
 import com.deepak.garageinventory.data.local.entity.BusinessExpense;
@@ -18,6 +20,8 @@ import com.deepak.garageinventory.data.local.entity.CustomerInvoice;
 import com.deepak.garageinventory.data.local.entity.CustomerKhata;
 import com.deepak.garageinventory.data.local.entity.InvoiceItem;
 import com.deepak.garageinventory.data.local.entity.InventoryItem;
+import com.deepak.garageinventory.data.local.entity.PurchaseBill;
+import com.deepak.garageinventory.data.local.entity.Quotation;
 import com.deepak.garageinventory.data.local.entity.StorageBin;
 import com.deepak.garageinventory.data.local.entity.StockTransaction;
 
@@ -29,9 +33,11 @@ import com.deepak.garageinventory.data.local.entity.StockTransaction;
         CustomerInvoice.class,
         InvoiceItem.class,
         BusinessExpense.class,
-        CustomerKhata.class
+        CustomerKhata.class,
+        Quotation.class,
+        PurchaseBill.class
     },
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 public abstract class InventoryDatabase extends RoomDatabase {
@@ -46,6 +52,8 @@ public abstract class InventoryDatabase extends RoomDatabase {
     public abstract InvoiceItemDao invoiceItemDao();
     public abstract BusinessExpenseDao businessExpenseDao();
     public abstract CustomerKhataDao customerKhataDao();
+    public abstract QuotationDao quotationDao();
+    public abstract PurchaseBillDao purchaseBillDao();
 
     public static InventoryDatabase getInstance(Context context) {
         if (INSTANCE == null) {

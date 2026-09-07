@@ -10,6 +10,8 @@ import com.deepak.garageinventory.data.local.dao.CustomerInvoiceDao;
 import com.deepak.garageinventory.data.local.dao.CustomerKhataDao;
 import com.deepak.garageinventory.data.local.dao.InvoiceItemDao;
 import com.deepak.garageinventory.data.local.dao.InventoryItemDao;
+import com.deepak.garageinventory.data.local.dao.PurchaseBillDao;
+import com.deepak.garageinventory.data.local.dao.QuotationDao;
 import com.deepak.garageinventory.data.local.dao.StorageBinDao;
 import com.deepak.garageinventory.data.local.dao.StockTransactionDao;
 import com.deepak.garageinventory.data.local.entity.BusinessExpense;
@@ -17,6 +19,8 @@ import com.deepak.garageinventory.data.local.entity.CustomerInvoice;
 import com.deepak.garageinventory.data.local.entity.CustomerKhata;
 import com.deepak.garageinventory.data.local.entity.InvoiceItem;
 import com.deepak.garageinventory.data.local.entity.InventoryItem;
+import com.deepak.garageinventory.data.local.entity.PurchaseBill;
+import com.deepak.garageinventory.data.local.entity.Quotation;
 import com.deepak.garageinventory.data.local.entity.StorageBin;
 import com.deepak.garageinventory.data.local.entity.StockTransaction;
 import com.deepak.garageinventory.utils.AppExecutors;
@@ -32,6 +36,8 @@ public class InventoryRepository {
     private final InvoiceItemDao invoiceItemDao;
     private final BusinessExpenseDao businessExpenseDao;
     private final CustomerKhataDao customerKhataDao;
+    private final QuotationDao quotationDao;
+    private final PurchaseBillDao purchaseBillDao;
     private final AppExecutors appExecutors;
 
     public interface OnItemInsertedListener {
@@ -55,6 +61,8 @@ public class InventoryRepository {
         this.invoiceItemDao = db.invoiceItemDao();
         this.businessExpenseDao = db.businessExpenseDao();
         this.customerKhataDao = db.customerKhataDao();
+        this.quotationDao = db.quotationDao();
+        this.purchaseBillDao = db.purchaseBillDao();
         this.appExecutors = AppExecutors.getInstance();
     }
 
@@ -256,5 +264,26 @@ public class InventoryRepository {
 
     public void insertParty(CustomerKhata party) {
         appExecutors.diskIO().execute(() -> customerKhataDao.insertParty(party));
+    }
+
+    // --- Quotations & Purchase Bills ---
+    public LiveData<List<Quotation>> getAllQuotations() {
+        return quotationDao.getAllQuotations();
+    }
+
+    public void insertQuotation(Quotation quotation) {
+        appExecutors.diskIO().execute(() -> quotationDao.insertQuotation(quotation));
+    }
+
+    public LiveData<List<PurchaseBill>> getAllPurchaseBills() {
+        return purchaseBillDao.getAllPurchaseBills();
+    }
+
+    public LiveData<Double> getTotalPurchasesAmount() {
+        return purchaseBillDao.getTotalPurchasesAmount();
+    }
+
+    public void insertPurchaseBill(PurchaseBill bill) {
+        appExecutors.diskIO().execute(() -> purchaseBillDao.insertPurchaseBill(bill));
     }
 }

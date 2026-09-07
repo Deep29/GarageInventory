@@ -22,6 +22,7 @@ import com.deepak.garageinventory.ui.expenses.ExpensesActivity;
 import com.deepak.garageinventory.ui.inventory.AddEditItemActivity;
 import com.deepak.garageinventory.ui.inventory.InventoryListActivity;
 import com.deepak.garageinventory.ui.khata.CustomerKhataActivity;
+import com.deepak.garageinventory.ui.reports.ProfitLossActivity;
 import com.deepak.garageinventory.ui.scanner.BarcodeScannerActivity;
 import com.deepak.garageinventory.ui.subscription.SubscriptionActivity;
 import com.deepak.garageinventory.ui.sync.SyncBackupActivity;
@@ -95,6 +96,11 @@ public class MainActivity extends AppCompatActivity {
 
         binding.btnNavKhata.setOnClickListener(v -> {
             Intent intent = new Intent(this, CustomerKhataActivity.class);
+            startActivity(intent);
+        });
+
+        binding.btnProfitLossReport.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ProfitLossActivity.class);
             startActivity(intent);
         });
 
