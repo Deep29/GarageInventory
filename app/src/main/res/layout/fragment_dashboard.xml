@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
     android:padding="16dp">
 
     <LinearLayout
@@ -10,97 +11,149 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Business Header -->
-        <TextView
-            android:id="@+id/tvShopNameHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="BizMaster - Small Business ERP"
-            android:textColor="?attr/colorOnSurface"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <!-- 2 Big Financial Hero Summary Cards -->
+        <!-- Header Profile & Welcome Banner -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <!-- Today's Sales -->
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:cardBackgroundColor="?attr/colorPrimaryContainer"
-                app:cardCornerRadius="14dp">
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tvShopHeaderName"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:text="Deepak Auto Garage"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Total Sales"
-                        android:textColor="?attr/colorOnPrimaryContainer"
-                        android:textSize="12sp" />
+                <TextView
+                    android:id="@+id/tvLicenseSummaryHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="3-Month Free Trial • 89 Days Left"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tvHomeSales"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:text="$0.00"
-                        android:textColor="?attr/colorOnPrimaryContainer"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+            </LinearLayout>
 
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Customer Dues -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="0dp"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnHeaderScan"
+                style="@style/Widget.Material3.Button.IconButton.Outlined"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_weight="1"
-                app:cardBackgroundColor="?attr/colorErrorContainer"
-                app:cardCornerRadius="14dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Unpaid Dues"
-                        android:textColor="?attr/colorOnErrorContainer"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tvHomeDues"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:text="$0.00"
-                        android:textColor="?attr/colorOnErrorContainer"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
+                app:icon="@android:drawable/ic_menu_camera" />
 
         </LinearLayout>
 
-        <!-- 2 Primary Action Buttons -->
+        <!-- Hero Financial Revenue Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="?attr/colorPrimaryContainer"
+            app:cardCornerRadius="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TOTAL SALES REVENUE"
+                    android:textColor="?attr/colorOnPrimaryContainer"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvHomeSales"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="$0.00"
+                    android:textColor="?attr/colorOnPrimaryContainer"
+                    android:textSize="32sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="12dp"
+                    android:background="?attr/colorOutlineVariant" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="UNPAID DUES (KHATA)"
+                            android:textColor="?attr/colorOnPrimaryContainer"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/tvHomeDues"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="$0.00"
+                            android:textColor="#D32F2F"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="NET PROFIT / LOSS"
+                            android:textColor="?attr/colorOnPrimaryContainer"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/tvHomeNetProfit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="$0.00"
+                            android:textColor="#2E7D32"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Quick Primary Actions (2 Large Buttons) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -114,7 +167,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingVertical="14dp"
-                android:text="+ New Sale"
+                android:text="+ New Sale / Bill"
                 app:icon="@android:drawable/ic_menu_agenda" />
 
             <com.google.android.material.button.MaterialButton
@@ -125,23 +178,26 @@
                 android:layout_marginStart="12dp"
                 android:layout_weight="1"
                 android:paddingVertical="14dp"
-                android:text="+ Expense"
+                android:text="+ Record Expense"
                 app:icon="@android:drawable/ic_menu_edit" />
 
         </LinearLayout>
 
-        <!-- Secondary Summary Grid -->
-        <LinearLayout
+        <!-- Financial Summary Row (2x2 Grid) -->
+        <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:orientation="horizontal">
+            android:columnCount="2"
+            android:rowCount="1">
 
-            <!-- Stock Valuation Card -->
+            <!-- Stock Valuation -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_marginEnd="6dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp">
 
@@ -149,12 +205,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="12dp">
+                    android:padding="14dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Stock Value"
+                        android:text="Stock Valuation"
                         android:textColor="?attr/colorOnSurfaceVariant"
                         android:textSize="12sp" />
 
@@ -172,12 +228,13 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Total Expenses Card -->
+            <!-- Total Expenses -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_weight="1"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_marginStart="6dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp">
 
@@ -185,7 +242,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="12dp">
+                    android:padding="14dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -208,14 +265,14 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-        </LinearLayout>
+        </GridLayout>
 
-        <!-- Low Stock Warning List -->
+        <!-- Low Stock Alerts Feed -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Low Stock Warnings"
+            android:text="Low Stock Alerts &amp; Reorder Feed"
             android:textColor="?attr/colorOnSurface"
             android:textSize="16sp"
             android:textStyle="bold" />
