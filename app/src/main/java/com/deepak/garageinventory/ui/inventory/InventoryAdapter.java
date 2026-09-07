@@ -22,6 +22,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
 
     public interface OnItemClickListener {
         void onItemClick(InventoryItem item);
+        void onDeleteClick(InventoryItem item);
     }
 
     private List<InventoryItem> itemList = new ArrayList<>();
@@ -98,6 +99,10 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
 
             binding.getRoot().setOnClickListener(v -> {
                 if (listener != null) listener.onItemClick(item);
+            });
+
+            binding.btnItemDelete.setOnClickListener(v -> {
+                if (listener != null) listener.onDeleteClick(item);
             });
         }
     }

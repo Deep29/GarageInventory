@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -110,5 +112,19 @@ public class InventoryListActivity extends AppCompatActivity implements Inventor
         Intent intent = new Intent(this, ItemDetailActivity.class);
         intent.putExtra("extra_item_id", item.getId());
         startActivity(intent);
+    }
+
+    @Override
+    public void onDeleteClick(InventoryItem item) {
+        if (item == null) return;
+        new AlertDialog.Builder(this)
+                .setTitle("Delete Part")
+                .setMessage("Are you sure you want to delete '" + item.getName() + "'?")
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    repository.deleteItem(item);
+                    Toast.makeText(this, "Part deleted", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 }

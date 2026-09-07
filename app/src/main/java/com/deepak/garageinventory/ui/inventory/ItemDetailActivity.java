@@ -57,6 +57,8 @@ public class ItemDetailActivity extends AppCompatActivity {
             intent.putExtra("extra_item_id", itemId);
             startActivity(intent);
         });
+
+        binding.btnDeletePart.setOnClickListener(v -> confirmDeleteItem());
     }
 
     private void loadItemDetails() {
@@ -117,6 +119,21 @@ public class ItemDetailActivity extends AppCompatActivity {
                     );
 
                     Toast.makeText(this, "Stock updated successfully", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    private void confirmDeleteItem() {
+        if (currentItem == null) return;
+
+        new AlertDialog.Builder(this)
+                .setTitle("Delete Part")
+                .setMessage("Are you sure you want to permanently delete '" + currentItem.getName() + "'?")
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    repository.deleteItem(currentItem);
+                    Toast.makeText(this, "Part deleted", Toast.LENGTH_SHORT).show();
+                    finish();
                 })
                 .setNegativeButton("Cancel", null)
                 .show();

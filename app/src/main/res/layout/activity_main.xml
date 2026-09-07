@@ -28,30 +28,31 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Banner / Title -->
+            <!-- Title -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Inventory Dashboard"
+                android:text="Stock Overview"
                 android:textColor="?attr/colorOnSurface"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <!-- Summary Cards Grid -->
+            <!-- Metrics Grid -->
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 android:columnCount="2"
                 android:rowCount="2">
 
-                <!-- Total Items Card -->
+                <!-- Total Parts -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardTotalParts"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_rowWeight="1"
                     android:layout_columnWeight="1"
-                    android:layout_margin="6dp"
+                    android:layout_margin="4dp"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="2dp">
 
@@ -59,7 +60,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="16dp">
+                        android:padding="12dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -72,23 +73,24 @@
                             android:id="@+id/tvTotalItems"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
+                            android:layout_marginTop="4dp"
                             android:text="0"
                             android:textColor="?attr/colorPrimary"
-                            android:textSize="24sp"
+                            android:textSize="22sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
 
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Total Bins Card -->
+                <!-- Low Stock Alert -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardLowStock"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_rowWeight="1"
                     android:layout_columnWeight="1"
-                    android:layout_margin="6dp"
+                    android:layout_margin="4dp"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="2dp">
 
@@ -96,44 +98,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Storage Bins"
-                            android:textColor="?attr/colorOnSurfaceVariant"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:id="@+id/tvTotalBins"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:text="0"
-                            android:textColor="?attr/colorSecondary"
-                            android:textSize="24sp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- Low Stock Card -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_rowWeight="1"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="6dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp">
+                        android:padding="12dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -146,23 +111,24 @@
                             android:id="@+id/tvLowStockCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
+                            android:layout_marginTop="4dp"
                             android:text="0"
                             android:textColor="#D32F2F"
-                            android:textSize="24sp"
+                            android:textSize="22sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
 
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Valuation Card -->
+                <!-- Storage Bins -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardBins"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_rowWeight="1"
                     android:layout_columnWeight="1"
-                    android:layout_margin="6dp"
+                    android:layout_margin="4dp"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="2dp">
 
@@ -170,7 +136,44 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="16dp">
+                        android:padding="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Storage Bins"
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/tvTotalBins"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="0"
+                            android:textColor="?attr/colorSecondary"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Stock Valuation -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="12dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -183,10 +186,10 @@
                             android:id="@+id/tvStockValuation"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
+                            android:layout_marginTop="4dp"
                             android:text="$0.00"
                             android:textColor="#2E7D32"
-                            android:textSize="20sp"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -195,97 +198,225 @@
 
             </GridLayout>
 
-            <!-- Main Actions -->
+            <!-- Main Features Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Quick Actions"
+                android:layout_marginTop="20dp"
+                android:text="Main Actions"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <!-- Scan Button Big -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardScanBarcode"
+            <!-- Action Grid (2x2) -->
+            <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                app:cardBackgroundColor="?attr/colorPrimaryContainer"
-                app:cardCornerRadius="16dp">
+                android:layout_marginTop="8dp"
+                android:columnCount="2"
+                android:rowCount="2">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <!-- 1. View Available Parts -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardViewParts"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="20dp">
-
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:contentDescription="Scan"
-                        app:srcCompat="@android:drawable/ic_menu_camera"
-                        app:tint="?attr/colorOnPrimaryContainer" />
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    app:cardBackgroundColor="?attr/colorPrimaryContainer"
+                    app:cardCornerRadius="14dp">
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:contentDescription="View Parts"
+                            app:srcCompat="@android:drawable/ic_menu_sort_by_size"
+                            app:tint="?attr/colorOnPrimaryContainer" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Scan Barcode / QR Code"
+                            android:layout_marginTop="8dp"
+                            android:text="View Parts"
                             android:textColor="?attr/colorOnPrimaryContainer"
-                            android:textSize="18sp"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
-                            android:text="Instant lookup or stock update"
+                            android:text="View &amp; Delete"
                             android:textColor="?attr/colorOnPrimaryContainer"
-                            android:textSize="13sp" />
+                            android:textSize="11sp" />
 
                     </LinearLayout>
 
-                </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-            </com.google.android.material.card.MaterialCardView>
+                <!-- 2. Add New Item -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardAddNewItem"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    app:cardBackgroundColor="?attr/colorSecondaryContainer"
+                    app:cardCornerRadius="14dp">
 
-            <!-- Navigation Buttons -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnNavInventory"
-                style="@style/Widget.Material3.Button.TonalButton"
-                android:layout_width="match_parent"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:contentDescription="Add Item"
+                            app:srcCompat="@android:drawable/ic_input_add"
+                            app:tint="?attr/colorOnSecondaryContainer" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Add New Item"
+                            android:textColor="?attr/colorOnSecondaryContainer"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Register Part"
+                            android:textColor="?attr/colorOnSecondaryContainer"
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 3. Scan Barcode / QR -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardScanBarcode"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    app:cardBackgroundColor="?attr/colorTertiaryContainer"
+                    app:cardCornerRadius="14dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:contentDescription="Scan Code"
+                            app:srcCompat="@android:drawable/ic_menu_camera"
+                            app:tint="?attr/colorOnTertiaryContainer" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Scan Barcode"
+                            android:textColor="?attr/colorOnTertiaryContainer"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Camera Scanner"
+                            android:textColor="?attr/colorOnTertiaryContainer"
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 4. Storage Bins & Labels -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardManageBins"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    app:cardCornerRadius="14dp"
+                    app:strokeColor="?attr/colorPrimary"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:contentDescription="Storage Bins"
+                            app:srcCompat="@android:drawable/ic_menu_crop"
+                            app:tint="?attr/colorPrimary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Storage Bins"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Print Labels"
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </GridLayout>
+
+            <!-- Data & Backup Tools -->
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:paddingVertical="14dp"
-                android:text="Manage Inventory Parts"
-                app:icon="@android:drawable/ic_menu_sort_by_size" />
+                android:layout_marginTop="20dp"
+                android:text="Data &amp; Account Options"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnNavBins"
-                style="@style/Widget.Material3.Button.TonalButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:paddingVertical="14dp"
-                android:text="Storage Bins &amp; Printable QR Labels"
-                app:icon="@android:drawable/ic_menu_crop" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnNavBackup"
+                android:id="@+id/btnImportExport"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:paddingVertical="14dp"
-                android:text="Google Account Backup &amp; Sheets Sync"
+                android:paddingVertical="12dp"
+                android:text="Import &amp; Export (Google Sheets)"
                 app:icon="@android:drawable/ic_menu_save" />
 
             <com.google.android.material.button.MaterialButton
@@ -294,7 +425,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:paddingVertical="14dp"
+                android:paddingVertical="12dp"
                 android:text="Account Registration &amp; Play Store SaaS"
                 app:icon="@android:drawable/ic_menu_manage" />
 

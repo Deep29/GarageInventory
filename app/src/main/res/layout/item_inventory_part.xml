@@ -92,12 +92,21 @@
                 android:id="@+id/tvLowStockWarning"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="4dp"
                 android:text="LOW STOCK"
                 android:textColor="#D32F2F"
                 android:textSize="11sp"
                 android:textStyle="bold"
                 android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnItemDelete"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                app:icon="@android:drawable/ic_menu_delete"
+                app:iconTint="#C62828" />
 
         </LinearLayout>
 

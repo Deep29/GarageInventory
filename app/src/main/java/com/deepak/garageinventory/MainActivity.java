@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.deepak.garageinventory.data.repository.InventoryRepository;
 import com.deepak.garageinventory.databinding.ActivityMainBinding;
 import com.deepak.garageinventory.ui.bin.BinListActivity;
+import com.deepak.garageinventory.ui.inventory.AddEditItemActivity;
 import com.deepak.garageinventory.ui.inventory.InventoryListActivity;
 import com.deepak.garageinventory.ui.scanner.BarcodeScannerActivity;
 import com.deepak.garageinventory.ui.subscription.SubscriptionActivity;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         repository = new InventoryRepository(getApplication());
 
         setupDashboardMetrics();
-        setupNavigationButtons();
+        setupNavigationActions();
     }
 
     private void setupDashboardMetrics() {
@@ -77,27 +78,53 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setupNavigationButtons() {
+    private void setupNavigationActions() {
+        // View Available Parts & Stock List
+        binding.cardViewParts.setOnClickListener(v -> {
+            Intent intent = new Intent(this, InventoryListActivity.class);
+            startActivity(intent);
+        });
+
+        binding.cardTotalParts.setOnClickListener(v -> {
+            Intent intent = new Intent(this, InventoryListActivity.class);
+            startActivity(intent);
+        });
+
+        binding.cardLowStock.setOnClickListener(v -> {
+            Intent intent = new Intent(this, InventoryListActivity.class);
+            startActivity(intent);
+        });
+
+        // Add New Item Form
+        binding.cardAddNewItem.setOnClickListener(v -> {
+            Intent intent = new Intent(this, AddEditItemActivity.class);
+            startActivity(intent);
+        });
+
+        // Camera Barcode / QR Scanner
         binding.cardScanBarcode.setOnClickListener(v -> {
             Intent intent = new Intent(this, BarcodeScannerActivity.class);
             barcodeScannerLauncher.launch(intent);
         });
 
-        binding.btnNavInventory.setOnClickListener(v -> {
-            Intent intent = new Intent(this, InventoryListActivity.class);
-            startActivity(intent);
-        });
-
-        binding.btnNavBins.setOnClickListener(v -> {
+        // Storage Bins & Label Printing
+        binding.cardManageBins.setOnClickListener(v -> {
             Intent intent = new Intent(this, BinListActivity.class);
             startActivity(intent);
         });
 
-        binding.btnNavBackup.setOnClickListener(v -> {
+        binding.cardBins.setOnClickListener(v -> {
+            Intent intent = new Intent(this, BinListActivity.class);
+            startActivity(intent);
+        });
+
+        // Import & Export Google Sheets
+        binding.btnImportExport.setOnClickListener(v -> {
             Intent intent = new Intent(this, SyncBackupActivity.class);
             startActivity(intent);
         });
 
+        // Account Registration & SaaS Subscription
         binding.btnNavSubscription.setOnClickListener(v -> {
             Intent intent = new Intent(this, SubscriptionActivity.class);
             startActivity(intent);
