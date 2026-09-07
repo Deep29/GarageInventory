@@ -46,13 +46,21 @@ public class AddEditBinActivity extends AppCompatActivity {
             loadBinData();
         } else {
             setTitle("Add Storage Bin");
-            String newCode = QrCodeGenerator.generateShortBinCode();
+            String newCode = QrCodeGenerator.formatFiveDigitBinCode(1);
             binding.etBinCode.setText(newCode);
+            binding.etBinName.setText("BIN " + newCode);
             updatePreviewLabel();
         }
 
         binding.btnGenerateCode.setOnClickListener(v -> {
-            binding.etBinCode.setText(QrCodeGenerator.generateShortBinCode());
+            String code = binding.etBinCode.getText().toString().trim();
+            int num = 1;
+            try {
+                num = Integer.parseInt(code) + 1;
+            } catch (Exception ignored) {}
+            String nextCode = QrCodeGenerator.formatFiveDigitBinCode(num);
+            binding.etBinCode.setText(nextCode);
+            binding.etBinName.setText("BIN " + nextCode);
             updatePreviewLabel();
         });
 

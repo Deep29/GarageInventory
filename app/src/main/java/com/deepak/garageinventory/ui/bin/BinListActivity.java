@@ -43,6 +43,11 @@ public class BinListActivity extends AppCompatActivity implements BinAdapter.OnB
             startActivity(intent);
         });
 
+        binding.btnPrintSeriesSheet.setOnClickListener(v -> {
+            Intent intent = new Intent(this, BulkBinPrintActivity.class);
+            startActivity(intent);
+        });
+
         repository.getAllBins().observe(this, bins -> {
             if (bins == null || bins.isEmpty()) {
                 binding.tvEmptyBins.setVisibility(View.VISIBLE);

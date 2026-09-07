@@ -38,4 +38,7 @@ public interface StorageBinDao {
 
     @Query("SELECT COUNT(*) FROM storage_bins")
     LiveData<Integer> getBinCount();
+
+    @Query("SELECT MAX(CAST(bin_code AS INTEGER)) FROM storage_bins WHERE bin_code GLOB '[0-9][0-9][0-9][0-9][0-9]'")
+    Integer getMaxBinNumberSync();
 }

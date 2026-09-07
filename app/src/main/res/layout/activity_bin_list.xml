@@ -14,6 +14,22 @@
             android:layout_height="?attr/actionBarSize"
             app:title="Storage Bins &amp; Boxes" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="12dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPrintSeriesSheet"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Print Series Barcodes Sheet (00001...)"
+                app:icon="@android:drawable/ic_menu_share" />
+
+        </LinearLayout>
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView

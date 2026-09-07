@@ -49,6 +49,10 @@
             android:exported="false" />
 
         <activity
+            android:name=".ui.bin.BulkBinPrintActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".ui.inventory.InventoryListActivity"
             android:exported="false" />
 
