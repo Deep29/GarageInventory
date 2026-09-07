@@ -13,7 +13,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Registration &amp; SaaS License" />
+            app:title="License &amp; Product Key Activation" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -27,12 +27,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- License Status Card -->
+            <!-- Current License Status Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp">
+                app:cardBackgroundColor="?attr/colorPrimaryContainer"
+                app:cardCornerRadius="14dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -43,29 +43,92 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Account Approval &amp; License Status"
-                        android:textColor="?attr/colorOnSurface"
+                        android:text="Current License Status"
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvLicenseSummary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="Active 3-Month Free Trial (89 Days Left)"
+                        android:textColor="?attr/colorOnPrimaryContainer"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tvLicenseStatus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Status: Active License (Admin Approved)"
-                        android:textColor="#2E7D32"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tvAdminContact"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Account linked to: admin@garageinventory.com"
-                        android:textColor="?attr/colorOnSurfaceVariant"
-                        android:textSize="13sp" />
+                        android:text="Initial 3 months free trial is automatically granted upon installation."
+                        android:textColor="?attr/colorOnPrimaryContainer"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Product Key Activation Form -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Activate 1-Year Product Key"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Enter 16-Digit Product Key (e.g. BIZ-XXXX-XXXX-XXXX)"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etProductKey"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapCharacters" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnActivateKey"
+                            style="@style/Widget.Material3.Button"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Activate 1-Year Key" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnGenerateDemoKey"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:text="Demo Key" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -86,10 +149,10 @@
                 android:id="@+id/cardMonthlyPlan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 app:cardCornerRadius="12dp"
                 app:strokeColor="?attr/colorPrimary"
-                app:strokeWidth="2dp">
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -102,7 +165,7 @@
                         android:layout_height="wrap_content"
                         android:text="Monthly Pro Plan"
                         android:textColor="?attr/colorPrimary"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -111,16 +174,8 @@
                         android:layout_marginTop="4dp"
                         android:text="$9.99 / Month"
                         android:textColor="?attr/colorOnSurface"
-                        android:textSize="22sp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Includes unlimited inventory parts, QR label printing, Google Sheets sync &amp; Drive photos backup."
-                        android:textColor="?attr/colorOnSurfaceVariant"
-                        android:textSize="13sp" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnSubscribeMonthly"
@@ -138,10 +193,10 @@
                 android:id="@+id/cardYearlyPlan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 app:cardCornerRadius="12dp"
                 app:strokeColor="?attr/colorSecondary"
-                app:strokeWidth="2dp">
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -154,7 +209,7 @@
                         android:layout_height="wrap_content"
                         android:text="Yearly Pro Plan (Save 25%)"
                         android:textColor="?attr/colorSecondary"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -163,16 +218,8 @@
                         android:layout_marginTop="4dp"
                         android:text="$89.99 / Year"
                         android:textColor="?attr/colorOnSurface"
-                        android:textSize="22sp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Best value for garages. Full features unlocked for 12 months with priority support."
-                        android:textColor="?attr/colorOnSurfaceVariant"
-                        android:textSize="13sp" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnSubscribeYearly"
@@ -180,7 +227,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="Subscribe Yearly" />
+                        android:text="Subscribe Yearly (365 Days)" />
 
                 </LinearLayout>
 
