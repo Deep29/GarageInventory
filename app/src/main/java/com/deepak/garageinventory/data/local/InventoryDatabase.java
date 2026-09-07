@@ -6,12 +6,16 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.deepak.garageinventory.data.local.dao.BusinessExpenseDao;
 import com.deepak.garageinventory.data.local.dao.CustomerInvoiceDao;
+import com.deepak.garageinventory.data.local.dao.CustomerKhataDao;
 import com.deepak.garageinventory.data.local.dao.InvoiceItemDao;
 import com.deepak.garageinventory.data.local.dao.InventoryItemDao;
 import com.deepak.garageinventory.data.local.dao.StorageBinDao;
 import com.deepak.garageinventory.data.local.dao.StockTransactionDao;
+import com.deepak.garageinventory.data.local.entity.BusinessExpense;
 import com.deepak.garageinventory.data.local.entity.CustomerInvoice;
+import com.deepak.garageinventory.data.local.entity.CustomerKhata;
 import com.deepak.garageinventory.data.local.entity.InvoiceItem;
 import com.deepak.garageinventory.data.local.entity.InventoryItem;
 import com.deepak.garageinventory.data.local.entity.StorageBin;
@@ -23,9 +27,11 @@ import com.deepak.garageinventory.data.local.entity.StockTransaction;
         InventoryItem.class,
         StockTransaction.class,
         CustomerInvoice.class,
-        InvoiceItem.class
+        InvoiceItem.class,
+        BusinessExpense.class,
+        CustomerKhata.class
     },
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 public abstract class InventoryDatabase extends RoomDatabase {
@@ -38,6 +44,8 @@ public abstract class InventoryDatabase extends RoomDatabase {
     public abstract StockTransactionDao stockTransactionDao();
     public abstract CustomerInvoiceDao customerInvoiceDao();
     public abstract InvoiceItemDao invoiceItemDao();
+    public abstract BusinessExpenseDao businessExpenseDao();
+    public abstract CustomerKhataDao customerKhataDao();
 
     public static InventoryDatabase getInstance(Context context) {
         if (INSTANCE == null) {

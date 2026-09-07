@@ -18,8 +18,10 @@ import com.deepak.garageinventory.ui.billing.CreateInvoiceActivity;
 import com.deepak.garageinventory.ui.billing.InvoiceHistoryActivity;
 import com.deepak.garageinventory.ui.billing.ReceiptSettingsActivity;
 import com.deepak.garageinventory.ui.bin.BinListActivity;
+import com.deepak.garageinventory.ui.expenses.ExpensesActivity;
 import com.deepak.garageinventory.ui.inventory.AddEditItemActivity;
 import com.deepak.garageinventory.ui.inventory.InventoryListActivity;
+import com.deepak.garageinventory.ui.khata.CustomerKhataActivity;
 import com.deepak.garageinventory.ui.scanner.BarcodeScannerActivity;
 import com.deepak.garageinventory.ui.subscription.SubscriptionActivity;
 import com.deepak.garageinventory.ui.sync.SyncBackupActivity;
@@ -63,21 +65,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupDashboardMetrics() {
-        repository.getTotalItemCount().observe(this, count -> {
-            binding.tvTotalItems.setText(String.valueOf(count != null ? count : 0));
+        repository.getTotalSalesAmount().observe(this, sales -> {
+            double totalVal = sales != null ? sales : 0.0;
+            binding.tvTotalSales.setText(String.format(Locale.US, "$%.2f", totalVal));
         });
 
-        repository.getAllBins().observe(this, bins -> {
-            binding.tvTotalBins.setText(String.valueOf(bins != null ? bins.size() : 0));
-        });
-
-        repository.getLowStockCount().observe(this, lowCount -> {
-            binding.tvLowStockCount.setText(String.valueOf(lowCount != null ? lowCount : 0));
+        repository.getTotalCustomerDues().observe(this, dues -> {
+            double totalVal = dues != null ? dues : 0.0;
+            binding.tvCustomerDues.setText(String.format(Locale.US, "$%.2f", totalVal));
         });
 
         repository.getTotalInventoryValue().observe(this, val -> {
             double totalVal = val != null ? val : 0.0;
             binding.tvStockValuation.setText(String.format(Locale.US, "$%.2f", totalVal));
+        });
+
+        repository.getTotalExpensesAmount().observe(this, expenses -> {
+            double totalVal = expenses != null ? expenses : 0.0;
+            binding.tvTotalExpenses.setText(String.format(Locale.US, "$%.2f", totalVal));
         });
     }
 
@@ -85,6 +90,16 @@ public class MainActivity extends AppCompatActivity {
         // Billing & Invoicing Actions
         binding.cardCreateBill.setOnClickListener(v -> {
             Intent intent = new Intent(this, CreateInvoiceActivity.class);
+            startActivity(intent);
+        });
+
+        binding.btnNavKhata.setOnClickListener(v -> {
+            Intent intent = new Intent(this, CustomerKhataActivity.class);
+            startActivity(intent);
+        });
+
+        binding.btnNavExpenses.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ExpensesActivity.class);
             startActivity(intent);
         });
 
@@ -104,13 +119,23 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        binding.cardTotalParts.setOnClickListener(v -> {
+        binding.cardTotalSales.setOnClickListener(v -> {
+            Intent intent = new Intent(this, InvoiceHistoryActivity.class);
+            startActivity(intent);
+        });
+
+        binding.cardCustomerDues.setOnClickListener(v -> {
+            Intent intent = new Intent(this, CustomerKhataActivity.class);
+            startActivity(intent);
+        });
+
+        binding.cardStockValue.setOnClickListener(v -> {
             Intent intent = new Intent(this, InventoryListActivity.class);
             startActivity(intent);
         });
 
-        binding.cardLowStock.setOnClickListener(v -> {
-            Intent intent = new Intent(this, InventoryListActivity.class);
+        binding.cardExpenses.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ExpensesActivity.class);
             startActivity(intent);
         });
 
@@ -128,11 +153,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Storage Bins & Label Printing
         binding.cardManageBins.setOnClickListener(v -> {
-            Intent intent = new Intent(this, BinListActivity.class);
-            startActivity(intent);
-        });
-
-        binding.cardBins.setOnClickListener(v -> {
             Intent intent = new Intent(this, BinListActivity.class);
             startActivity(intent);
         });

@@ -5,12 +5,16 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.deepak.garageinventory.data.local.InventoryDatabase;
+import com.deepak.garageinventory.data.local.dao.BusinessExpenseDao;
 import com.deepak.garageinventory.data.local.dao.CustomerInvoiceDao;
+import com.deepak.garageinventory.data.local.dao.CustomerKhataDao;
 import com.deepak.garageinventory.data.local.dao.InvoiceItemDao;
 import com.deepak.garageinventory.data.local.dao.InventoryItemDao;
 import com.deepak.garageinventory.data.local.dao.StorageBinDao;
 import com.deepak.garageinventory.data.local.dao.StockTransactionDao;
+import com.deepak.garageinventory.data.local.entity.BusinessExpense;
 import com.deepak.garageinventory.data.local.entity.CustomerInvoice;
+import com.deepak.garageinventory.data.local.entity.CustomerKhata;
 import com.deepak.garageinventory.data.local.entity.InvoiceItem;
 import com.deepak.garageinventory.data.local.entity.InventoryItem;
 import com.deepak.garageinventory.data.local.entity.StorageBin;
@@ -26,6 +30,8 @@ public class InventoryRepository {
     private final StockTransactionDao stockTransactionDao;
     private final CustomerInvoiceDao customerInvoiceDao;
     private final InvoiceItemDao invoiceItemDao;
+    private final BusinessExpenseDao businessExpenseDao;
+    private final CustomerKhataDao customerKhataDao;
     private final AppExecutors appExecutors;
 
     public interface OnItemInsertedListener {
@@ -47,6 +53,8 @@ public class InventoryRepository {
         this.stockTransactionDao = db.stockTransactionDao();
         this.customerInvoiceDao = db.customerInvoiceDao();
         this.invoiceItemDao = db.invoiceItemDao();
+        this.businessExpenseDao = db.businessExpenseDao();
+        this.customerKhataDao = db.customerKhataDao();
         this.appExecutors = AppExecutors.getInstance();
     }
 
@@ -223,5 +231,30 @@ public class InventoryRepository {
                 appExecutors.mainThread().execute(() -> listener.onInvoiceSaved(invoiceId));
             }
         });
+    }
+
+    // --- Expenses & Khata ---
+    public LiveData<List<BusinessExpense>> getAllExpenses() {
+        return businessExpenseDao.getAllExpenses();
+    }
+
+    public LiveData<Double> getTotalExpensesAmount() {
+        return businessExpenseDao.getTotalExpensesAmount();
+    }
+
+    public void insertExpense(BusinessExpense expense) {
+        appExecutors.diskIO().execute(() -> businessExpenseDao.insertExpense(expense));
+    }
+
+    public LiveData<List<CustomerKhata>> getAllCustomers() {
+        return customerKhataDao.getAllCustomers();
+    }
+
+    public LiveData<Double> getTotalCustomerDues() {
+        return customerKhataDao.getTotalCustomerDues();
+    }
+
+    public void insertParty(CustomerKhata party) {
+        appExecutors.diskIO().execute(() -> customerKhataDao.insertParty(party));
     }
 }
