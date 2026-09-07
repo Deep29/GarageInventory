@@ -53,10 +53,11 @@ public class AddEditBinActivity extends AppCompatActivity {
         }
 
         binding.btnGenerateCode.setOnClickListener(v -> {
-            String code = binding.etBinCode.getText().toString().trim();
+            CharSequence codeText = binding.etBinCode.getText();
+            String code = codeText != null ? codeText.toString().trim() : "";
             int num = 1;
             try {
-                num = Integer.parseInt(code) + 1;
+                if (!code.isEmpty()) num = Integer.parseInt(code) + 1;
             } catch (Exception ignored) {}
             String nextCode = QrCodeGenerator.formatFiveDigitBinCode(num);
             binding.etBinCode.setText(nextCode);
@@ -105,11 +106,14 @@ public class AddEditBinActivity extends AppCompatActivity {
     }
 
     private void updatePreviewLabel() {
-        String name = binding.etBinName.getText().toString().trim();
-        String code = binding.etBinCode.getText().toString().trim();
+        CharSequence nameText = binding.etBinName.getText();
+        CharSequence codeText = binding.etBinCode.getText();
+
+        String name = nameText != null ? nameText.toString().trim() : "";
+        String code = codeText != null ? codeText.toString().trim() : "";
 
         if (name.isEmpty()) name = "Sample Bin Name";
-        if (code.isEmpty()) code = "000000";
+        if (code.isEmpty()) code = "00000";
 
         try {
             Bitmap qrBitmap = QrCodeGenerator.generateQrCode(code, 200, 200);
