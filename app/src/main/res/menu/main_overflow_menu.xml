@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_printer_settings"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="Printer &amp; Receipt Settings"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_sheets_sync"
+        android:icon="@android:drawable/ic_menu_save"
+        android:title="Google Sheets Backup &amp; Sync"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_saas_subscription"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="SaaS Subscription &amp; Account"
+        app:showAsAction="never" />
+
+</menu>

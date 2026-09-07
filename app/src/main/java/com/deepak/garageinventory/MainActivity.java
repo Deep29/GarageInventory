@@ -2,49 +2,29 @@ package com.deepak.garageinventory;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.activity.EdgeToEdge;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
 
-import com.deepak.garageinventory.data.repository.InventoryRepository;
 import com.deepak.garageinventory.databinding.ActivityMainBinding;
-import com.deepak.garageinventory.ui.billing.CreateInvoiceActivity;
-import com.deepak.garageinventory.ui.billing.InvoiceHistoryActivity;
 import com.deepak.garageinventory.ui.billing.ReceiptSettingsActivity;
-import com.deepak.garageinventory.ui.bin.BinListActivity;
-import com.deepak.garageinventory.ui.expenses.ExpensesActivity;
-import com.deepak.garageinventory.ui.inventory.AddEditItemActivity;
-import com.deepak.garageinventory.ui.inventory.InventoryListActivity;
-import com.deepak.garageinventory.ui.khata.CustomerKhataActivity;
-import com.deepak.garageinventory.ui.reports.ProfitLossActivity;
-import com.deepak.garageinventory.ui.scanner.BarcodeScannerActivity;
+import com.deepak.garageinventory.ui.fragments.DashboardFragment;
+import com.deepak.garageinventory.ui.fragments.PartiesFragment;
+import com.deepak.garageinventory.ui.fragments.SalesFragment;
+import com.deepak.garageinventory.ui.fragments.StockFragment;
 import com.deepak.garageinventory.ui.subscription.SubscriptionActivity;
 import com.deepak.garageinventory.ui.sync.SyncBackupActivity;
-
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private InventoryRepository repository;
-
-    private final ActivityResultLauncher<Intent> barcodeScannerLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    String scannedCode = result.getData().getStringExtra(BarcodeScannerActivity.EXTRA_BARCODE_RESULT);
-                    if (scannedCode != null) {
-                        handleScannedCode(scannedCode);
-                    }
-                }
-            }
-    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,130 +35,69 @@ public class MainActivity extends AppCompatActivity {
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
             return insets;
         });
 
-        repository = new InventoryRepository(getApplication());
+        setSupportActionBar(binding.toolbar);
 
-        setupDashboardMetrics();
-        setupNavigationActions();
+        setupBottomNavigation();
+
+        // Default to Dashboard tab
+        if (savedInstanceState == null) {
+            loadFragment(new DashboardFragment());
+        }
     }
 
-    private void setupDashboardMetrics() {
-        repository.getTotalSalesAmount().observe(this, sales -> {
-            double totalVal = sales != null ? sales : 0.0;
-            binding.tvTotalSales.setText(String.format(Locale.US, "$%.2f", totalVal));
-        });
+    private void setupBottomNavigation() {
+        binding.bottomNav.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            Fragment fragment = null;
 
-        repository.getTotalCustomerDues().observe(this, dues -> {
-            double totalVal = dues != null ? dues : 0.0;
-            binding.tvCustomerDues.setText(String.format(Locale.US, "$%.2f", totalVal));
-        });
+            if (itemId == R.id.nav_dashboard) {
+                fragment = new DashboardFragment();
+            } else if (itemId == R.id.nav_sales) {
+                fragment = new SalesFragment();
+            } else if (itemId == R.id.nav_stock) {
+                fragment = new StockFragment();
+            } else if (itemId == R.id.nav_khata) {
+                fragment = new PartiesFragment();
+            }
 
-        repository.getTotalInventoryValue().observe(this, val -> {
-            double totalVal = val != null ? val : 0.0;
-            binding.tvStockValuation.setText(String.format(Locale.US, "$%.2f", totalVal));
-        });
-
-        repository.getTotalExpensesAmount().observe(this, expenses -> {
-            double totalVal = expenses != null ? expenses : 0.0;
-            binding.tvTotalExpenses.setText(String.format(Locale.US, "$%.2f", totalVal));
-        });
-    }
-
-    private void setupNavigationActions() {
-        // Billing & Invoicing Actions
-        binding.cardCreateBill.setOnClickListener(v -> {
-            Intent intent = new Intent(this, CreateInvoiceActivity.class);
-            startActivity(intent);
-        });
-
-        binding.btnNavKhata.setOnClickListener(v -> {
-            Intent intent = new Intent(this, CustomerKhataActivity.class);
-            startActivity(intent);
-        });
-
-        binding.btnProfitLossReport.setOnClickListener(v -> {
-            Intent intent = new Intent(this, ProfitLossActivity.class);
-            startActivity(intent);
-        });
-
-        binding.btnNavExpenses.setOnClickListener(v -> {
-            Intent intent = new Intent(this, ExpensesActivity.class);
-            startActivity(intent);
-        });
-
-        binding.btnBillHistory.setOnClickListener(v -> {
-            Intent intent = new Intent(this, InvoiceHistoryActivity.class);
-            startActivity(intent);
-        });
-
-        binding.btnReceiptSettings.setOnClickListener(v -> {
-            Intent intent = new Intent(this, ReceiptSettingsActivity.class);
-            startActivity(intent);
-        });
-
-        // View Available Parts & Stock List
-        binding.cardViewParts.setOnClickListener(v -> {
-            Intent intent = new Intent(this, InventoryListActivity.class);
-            startActivity(intent);
-        });
-
-        binding.cardTotalSales.setOnClickListener(v -> {
-            Intent intent = new Intent(this, InvoiceHistoryActivity.class);
-            startActivity(intent);
-        });
-
-        binding.cardCustomerDues.setOnClickListener(v -> {
-            Intent intent = new Intent(this, CustomerKhataActivity.class);
-            startActivity(intent);
-        });
-
-        binding.cardStockValue.setOnClickListener(v -> {
-            Intent intent = new Intent(this, InventoryListActivity.class);
-            startActivity(intent);
-        });
-
-        binding.cardExpenses.setOnClickListener(v -> {
-            Intent intent = new Intent(this, ExpensesActivity.class);
-            startActivity(intent);
-        });
-
-        // Add New Item Form
-        binding.cardAddNewItem.setOnClickListener(v -> {
-            Intent intent = new Intent(this, AddEditItemActivity.class);
-            startActivity(intent);
-        });
-
-        // Camera Barcode / QR Scanner
-        binding.cardScanBarcode.setOnClickListener(v -> {
-            Intent intent = new Intent(this, BarcodeScannerActivity.class);
-            barcodeScannerLauncher.launch(intent);
-        });
-
-        // Storage Bins & Label Printing
-        binding.cardManageBins.setOnClickListener(v -> {
-            Intent intent = new Intent(this, BinListActivity.class);
-            startActivity(intent);
-        });
-
-        // Import & Export Google Sheets
-        binding.btnImportExport.setOnClickListener(v -> {
-            Intent intent = new Intent(this, SyncBackupActivity.class);
-            startActivity(intent);
-        });
-
-        // Account Registration & SaaS Subscription
-        binding.btnNavSubscription.setOnClickListener(v -> {
-            Intent intent = new Intent(this, SubscriptionActivity.class);
-            startActivity(intent);
+            if (fragment != null) {
+                loadFragment(fragment);
+                return true;
+            }
+            return false;
         });
     }
 
-    private void handleScannedCode(String scannedCode) {
-        Toast.makeText(this, "Scanned Code: " + scannedCode, Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, InventoryListActivity.class);
-        startActivity(intent);
+    private void loadFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentContainer, fragment)
+                .commit();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_overflow_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.menu_printer_settings) {
+            startActivity(new Intent(this, ReceiptSettingsActivity.class));
+            return true;
+        } else if (id == R.id.menu_sheets_sync) {
+            startActivity(new Intent(this, SyncBackupActivity.class));
+            return true;
+        } else if (id == R.id.menu_saas_subscription) {
+            startActivity(new Intent(this, SubscriptionActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
