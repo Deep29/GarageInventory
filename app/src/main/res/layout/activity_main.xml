@@ -14,7 +14,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Garage Stock Manager" />
+            app:title="Garage Stock &amp; Billing Portal" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -32,12 +32,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Stock Overview"
+                android:text="Dashboard &amp; Overview"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <!-- Metrics Grid -->
+            <!-- Metrics Grid (2x2) -->
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -198,17 +198,106 @@
 
             </GridLayout>
 
-            <!-- Main Features Section -->
+            <!-- SECTION 1: Billing & Thermal Printing -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Main Actions"
+                android:text="Billing &amp; Thermal Printing"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <!-- Action Grid (2x2) -->
+            <!-- Create Bill Big Banner Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardCreateBill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:cardBackgroundColor="?attr/colorPrimaryContainer"
+                app:cardCornerRadius="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="Create Bill"
+                        app:srcCompat="@android:drawable/ic_menu_agenda"
+                        app:tint="?attr/colorOnPrimaryContainer" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Create Customer Bill"
+                            android:textColor="?attr/colorOnPrimaryContainer"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Scan barcodes, deduct stock &amp; print receipt"
+                            android:textColor="?attr/colorOnPrimaryContainer"
+                            android:textSize="13sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnBillHistory"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Bill History"
+                    app:icon="@android:drawable/ic_menu_recent_history" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnReceiptSettings"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="Printer Settings"
+                    app:icon="@android:drawable/ic_menu_preferences" />
+
+            </LinearLayout>
+
+            <!-- SECTION 2: Inventory & Stock Management -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Inventory &amp; Stock Management"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- Stock Grid (2x2) -->
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -219,51 +308,6 @@
                 <!-- 1. View Available Parts -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardViewParts"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_rowWeight="1"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
-                    app:cardBackgroundColor="?attr/colorPrimaryContainer"
-                    app:cardCornerRadius="14dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <ImageView
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:contentDescription="View Parts"
-                            app:srcCompat="@android:drawable/ic_menu_sort_by_size"
-                            app:tint="?attr/colorOnPrimaryContainer" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="View Parts"
-                            android:textColor="?attr/colorOnPrimaryContainer"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="View &amp; Delete"
-                            android:textColor="?attr/colorOnPrimaryContainer"
-                            android:textSize="11sp" />
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- 2. Add New Item -->
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cardAddNewItem"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_rowWeight="1"
@@ -280,17 +324,17 @@
                         android:padding="16dp">
 
                         <ImageView
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:contentDescription="Add Item"
-                            app:srcCompat="@android:drawable/ic_input_add"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:contentDescription="View Parts"
+                            app:srcCompat="@android:drawable/ic_menu_sort_by_size"
                             app:tint="?attr/colorOnSecondaryContainer" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="Add New Item"
+                            android:text="View Parts"
                             android:textColor="?attr/colorOnSecondaryContainer"
                             android:textSize="15sp"
                             android:textStyle="bold" />
@@ -298,8 +342,54 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Register Part"
+                            android:text="View &amp; Delete"
                             android:textColor="?attr/colorOnSecondaryContainer"
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 2. Add New Item -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardAddNewItem"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="4dp"
+                    app:cardCornerRadius="14dp"
+                    app:strokeColor="?attr/colorPrimary"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:contentDescription="Add Item"
+                            app:srcCompat="@android:drawable/ic_input_add"
+                            app:tint="?attr/colorPrimary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Add New Item"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Register Part"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="11sp" />
 
                     </LinearLayout>
@@ -325,8 +415,8 @@
                         android:padding="16dp">
 
                         <ImageView
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
                             android:contentDescription="Scan Code"
                             app:srcCompat="@android:drawable/ic_menu_camera"
                             app:tint="?attr/colorOnTertiaryContainer" />
@@ -360,7 +450,7 @@
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
                     app:cardCornerRadius="14dp"
-                    app:strokeColor="?attr/colorPrimary"
+                    app:strokeColor="?attr/colorOutline"
                     app:strokeWidth="1dp">
 
                     <LinearLayout
@@ -371,11 +461,11 @@
                         android:padding="16dp">
 
                         <ImageView
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
                             android:contentDescription="Storage Bins"
                             app:srcCompat="@android:drawable/ic_menu_crop"
-                            app:tint="?attr/colorPrimary" />
+                            app:tint="?attr/colorOnSurface" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -399,12 +489,12 @@
 
             </GridLayout>
 
-            <!-- Data & Backup Tools -->
+            <!-- SECTION 3: Cloud & SaaS -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Data &amp; Account Options"
+                android:layout_marginTop="24dp"
+                android:text="Cloud &amp; SaaS Options"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="18sp"
                 android:textStyle="bold" />

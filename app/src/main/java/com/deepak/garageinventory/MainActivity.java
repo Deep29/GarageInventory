@@ -14,6 +14,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.deepak.garageinventory.data.repository.InventoryRepository;
 import com.deepak.garageinventory.databinding.ActivityMainBinding;
+import com.deepak.garageinventory.ui.billing.CreateInvoiceActivity;
+import com.deepak.garageinventory.ui.billing.InvoiceHistoryActivity;
+import com.deepak.garageinventory.ui.billing.ReceiptSettingsActivity;
 import com.deepak.garageinventory.ui.bin.BinListActivity;
 import com.deepak.garageinventory.ui.inventory.AddEditItemActivity;
 import com.deepak.garageinventory.ui.inventory.InventoryListActivity;
@@ -79,6 +82,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupNavigationActions() {
+        // Billing & Invoicing Actions
+        binding.cardCreateBill.setOnClickListener(v -> {
+            Intent intent = new Intent(this, CreateInvoiceActivity.class);
+            startActivity(intent);
+        });
+
+        binding.btnBillHistory.setOnClickListener(v -> {
+            Intent intent = new Intent(this, InvoiceHistoryActivity.class);
+            startActivity(intent);
+        });
+
+        binding.btnReceiptSettings.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ReceiptSettingsActivity.class);
+            startActivity(intent);
+        });
+
         // View Available Parts & Stock List
         binding.cardViewParts.setOnClickListener(v -> {
             Intent intent = new Intent(this, InventoryListActivity.class);

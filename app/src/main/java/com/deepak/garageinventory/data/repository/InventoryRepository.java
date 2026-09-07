@@ -5,9 +5,13 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.deepak.garageinventory.data.local.InventoryDatabase;
+import com.deepak.garageinventory.data.local.dao.CustomerInvoiceDao;
+import com.deepak.garageinventory.data.local.dao.InvoiceItemDao;
 import com.deepak.garageinventory.data.local.dao.InventoryItemDao;
 import com.deepak.garageinventory.data.local.dao.StorageBinDao;
 import com.deepak.garageinventory.data.local.dao.StockTransactionDao;
+import com.deepak.garageinventory.data.local.entity.CustomerInvoice;
+import com.deepak.garageinventory.data.local.entity.InvoiceItem;
 import com.deepak.garageinventory.data.local.entity.InventoryItem;
 import com.deepak.garageinventory.data.local.entity.StorageBin;
 import com.deepak.garageinventory.data.local.entity.StockTransaction;
@@ -20,6 +24,8 @@ public class InventoryRepository {
     private final StorageBinDao storageBinDao;
     private final InventoryItemDao inventoryItemDao;
     private final StockTransactionDao stockTransactionDao;
+    private final CustomerInvoiceDao customerInvoiceDao;
+    private final InvoiceItemDao invoiceItemDao;
     private final AppExecutors appExecutors;
 
     public interface OnItemInsertedListener {
@@ -30,11 +36,17 @@ public class InventoryRepository {
         void onBinInserted(long binId);
     }
 
+    public interface OnInvoiceSavedListener {
+        void onInvoiceSaved(long invoiceId);
+    }
+
     public InventoryRepository(Application application) {
         InventoryDatabase db = InventoryDatabase.getInstance(application);
         this.storageBinDao = db.storageBinDao();
         this.inventoryItemDao = db.inventoryItemDao();
         this.stockTransactionDao = db.stockTransactionDao();
+        this.customerInvoiceDao = db.customerInvoiceDao();
+        this.invoiceItemDao = db.invoiceItemDao();
         this.appExecutors = AppExecutors.getInstance();
     }
 
@@ -149,6 +161,66 @@ public class InventoryRepository {
                         itemId, type, changeQty, notes, userEmail, System.currentTimeMillis()
                 );
                 stockTransactionDao.insert(tx);
+            }
+        });
+    }
+
+    // --- Billing & Invoices ---
+    public LiveData<List<CustomerInvoice>> getAllInvoices() {
+        return customerInvoiceDao.getAllInvoices();
+    }
+
+    public LiveData<CustomerInvoice> getInvoiceById(long id) {
+        return customerInvoiceDao.getInvoiceById(id);
+    }
+
+    public LiveData<List<InvoiceItem>> getItemsForInvoice(long invoiceId) {
+        return invoiceItemDao.getItemsForInvoice(invoiceId);
+    }
+
+    public LiveData<Integer> getInvoiceCount() {
+        return customerInvoiceDao.getInvoiceCount();
+    }
+
+    public LiveData<Double> getTotalSalesAmount() {
+        return customerInvoiceDao.getTotalSalesAmount();
+    }
+
+    public void saveInvoiceAndDeductStock(CustomerInvoice invoice, List<InvoiceItem> lineItems, OnInvoiceSavedListener listener) {
+        appExecutors.diskIO().execute(() -> {
+            long invoiceId = customerInvoiceDao.insertInvoice(invoice);
+            if (lineItems != null && !lineItems.isEmpty()) {
+                for (InvoiceItem item : lineItems) {
+                    item.setInvoiceId(invoiceId);
+
+                    // Auto-deduct quantity from stock
+                    if (item.getItemId() > 0) {
+                        InventoryItem stockItem = inventoryItemDao.getItemByIdSync(item.getItemId());
+                        if (stockItem != null) {
+                            int newQty = stockItem.getQuantity() - item.getQuantity();
+                            if (newQty < 0) newQty = 0;
+                            stockItem.setQuantity(newQty);
+                            stockItem.setUpdatedAt(System.currentTimeMillis());
+                            inventoryItemDao.update(stockItem);
+
+                            // Record transaction log
+                            StockTransaction tx = new StockTransaction(
+                                    item.getItemId(),
+                                    "STOCK_OUT",
+                                    item.getQuantity(),
+                                    "Billing Invoice: " + invoice.getInvoiceNumber(),
+                                    "billing",
+                                    System.currentTimeMillis()
+                            );
+                            stockTransactionDao.insert(tx);
+                        }
+                    }
+                }
+                invoiceItemDao.insertInvoiceItems(lineItems);
+            }
+
+            if (listener != null) {
+                appExecutors.mainThread().execute(() -> listener.onInvoiceSaved(invoiceId));
             }
         });
     }
