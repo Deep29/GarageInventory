@@ -15,9 +15,15 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/menu_user_profile"
+        android:icon="@android:drawable/ic_menu_myplaces"
+        android:title="User Profile &amp; Account"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/menu_saas_subscription"
         android:icon="@android:drawable/ic_menu_manage"
-        android:title="SaaS Subscription &amp; Account"
+        android:title="SaaS Subscription &amp; License"
         app:showAsAction="never" />
 
 </menu>
