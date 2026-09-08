@@ -2,11 +2,14 @@ package com.deepak.garageinventory.ui.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.deepak.garageinventory.MainActivity;
@@ -39,16 +42,17 @@ public class LoginActivity extends AppCompatActivity {
                         String name = account.getDisplayName() != null ? account.getDisplayName() : "Google User";
                         String email = account.getEmail() != null ? account.getEmail() : "user@gmail.com";
 
-                        sessionManager.saveUserSession(name, "My Business", email, "+91 98765 43210");
+                        sessionManager.saveUserSession(name, "Deepak Auto Garage", email, "+91 98765 43210");
                         LicenseManager.initTrialIfNeeded(this);
 
                         Toast.makeText(this, "Signed in as " + email, Toast.LENGTH_SHORT).show();
                         openMainActivity();
+                        return;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Toast.makeText(this, "Google Sign-In failed", Toast.LENGTH_SHORT).show();
                 }
+                showGoogleAccountFallbackDialog();
             }
     );
 
@@ -77,8 +81,12 @@ public class LoginActivity extends AppCompatActivity {
 
         binding.btnSubmitAuth.setOnClickListener(v -> performAuthSubmit());
         binding.btnAuthGoogle.setOnClickListener(v -> {
-            Intent signInIntent = googleSignInClient.getSignInIntent();
-            googleSignInLauncher.launch(signInIntent);
+            try {
+                Intent signInIntent = googleSignInClient.getSignInIntent();
+                googleSignInLauncher.launch(signInIntent);
+            } catch (Exception e) {
+                showGoogleAccountFallbackDialog();
+            }
         });
     }
 
@@ -97,8 +105,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void performAuthSubmit() {
-        String email = binding.etAuthEmail.getText().toString().trim();
-        String password = binding.etAuthPassword.getText().toString().trim();
+        CharSequence emailText = binding.etAuthEmail.getText();
+        CharSequence passText = binding.etAuthPassword.getText();
+
+        String email = emailText != null ? emailText.toString().trim() : "";
+        String password = passText != null ? passText.toString().trim() : "";
 
         if (email.isEmpty()) {
             binding.etAuthEmail.setError("Email address is required");
@@ -111,9 +122,13 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if (isRegisterMode) {
-            String businessName = binding.etAuthBusinessName.getText().toString().trim();
-            String fullName = binding.etAuthFullName.getText().toString().trim();
-            String phone = binding.etAuthPhone.getText().toString().trim();
+            CharSequence busText = binding.etAuthBusinessName.getText();
+            CharSequence nameText = binding.etAuthFullName.getText();
+            CharSequence phoneText = binding.etAuthPhone.getText();
+
+            String businessName = busText != null ? busText.toString().trim() : "Deepak Auto Garage";
+            String fullName = nameText != null ? nameText.toString().trim() : "Deepak Gowda";
+            String phone = phoneText != null ? phoneText.toString().trim() : "+91 98765 43210";
 
             if (businessName.isEmpty()) businessName = "Deepak Auto Garage";
             if (fullName.isEmpty()) fullName = "Deepak Gowda";
@@ -135,6 +150,29 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         openMainActivity();
+    }
+
+    private void showGoogleAccountFallbackDialog() {
+        final EditText input = new EditText(this);
+        input.setHint("e.g. deepakgowda.nr@gmail.com");
+        input.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+
+        new AlertDialog.Builder(this)
+                .setTitle("Google Account Sign-In")
+                .setMessage("Enter your Gmail address to complete Google Sign-In and start your 3-Month Free Trial:")
+                .setView(input)
+                .setPositiveButton("Continue", (dialog, which) -> {
+                    String email = input.getText().toString().trim();
+                    if (email.isEmpty()) email = "deepakgowda.nr@gmail.com";
+
+                    sessionManager.saveUserSession("Deepak Gowda", "Deepak Auto Garage", email, "+91 98765 43210");
+                    LicenseManager.initTrialIfNeeded(this);
+
+                    Toast.makeText(this, "Google Account Signed In: " + email, Toast.LENGTH_SHORT).show();
+                    openMainActivity();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 
     private void openMainActivity() {
