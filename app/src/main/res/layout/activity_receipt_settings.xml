@@ -13,7 +13,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Receipt &amp; Thermal Printer Settings" />
+            app:title="Receipt &amp; Printer Configuration" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -28,11 +28,110 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Garage Details -->
+            <!-- Printer Hardware Configuration Card -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Garage &amp; Receipt Header Info"
+                android:text="Printer Hardware Configuration"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- Printer Mode Selection -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilPrinterType"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Printer Type / Connection">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/actvPrinterType"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:text="Bluetooth Thermal Printer" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Paper Width Selection -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilPaperWidth"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:hint="Thermal Paper Size">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/actvPaperWidth"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:text="58mm Thermal Paper (32 Chars)" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Paired Bluetooth Printer Device -->
+                    <TextView
+                        android:id="@+id/tvPairedPrinter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="Paired Printer: No Printer Paired"
+                        android:textColor="?attr/colorPrimary"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnPairBtPrinter"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Select Printer"
+                            app:icon="@android:drawable/ic_menu_share" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnTestPrint"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:text="Test Print"
+                            app:icon="@android:drawable/ic_menu_camera" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Garage / Business Receipt Header Details -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Receipt Header &amp; Business Info"
                 android:textColor="?attr/colorOnSurface"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -40,8 +139,8 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:hint="Garage / Shop Business Name"
+                android:layout_marginTop="8dp"
+                android:hint="Garage / Business Name"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -112,50 +211,6 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Bluetooth Printer Connection -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Bluetooth Thermal Printer Setup"
-                android:textColor="?attr/colorOnSurface"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                app:cardCornerRadius="12dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:id="@+id/tvPairedPrinter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Paired Printer: No Printer Paired"
-                        android:textColor="?attr/colorPrimary"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnPairBtPrinter"
-                        style="@style/Widget.Material3.Button.TonalButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="Select Paired Bluetooth Thermal Printer"
-                        app:icon="@android:drawable/ic_menu_share" />
-
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
         </LinearLayout>
 
     </ScrollView>
@@ -165,6 +220,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Save Receipt Settings" />
+        android:text="Save Printer Settings" />
 
 </LinearLayout>

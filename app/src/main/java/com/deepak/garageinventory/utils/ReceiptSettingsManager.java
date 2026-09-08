@@ -12,6 +12,7 @@ public class ReceiptSettingsManager {
     private static final String KEY_GST_TAX_RATE = "gst_tax_rate";
     private static final String KEY_FOOTER_NOTE = "footer_note";
     private static final String KEY_PAPER_WIDTH = "paper_width"; // "58mm" or "80mm"
+    private static final String KEY_PRINTER_TYPE = "printer_type"; // "BLUETOOTH_THERMAL" or "NORMAL_PRINTER"
     private static final String KEY_BT_MAC_ADDRESS = "bt_mac_address";
     private static final String KEY_BT_DEVICE_NAME = "bt_device_name";
 
@@ -67,6 +68,14 @@ public class ReceiptSettingsManager {
 
     public void setPaperWidth(String width) {
         prefs.edit().putString(KEY_PAPER_WIDTH, width).apply();
+    }
+
+    public String getPrinterType() {
+        return prefs.getString(KEY_PRINTER_TYPE, "BLUETOOTH_THERMAL");
+    }
+
+    public void setPrinterType(String type) {
+        prefs.edit().putString(KEY_PRINTER_TYPE, type).apply();
     }
 
     public String getBtMacAddress() {
