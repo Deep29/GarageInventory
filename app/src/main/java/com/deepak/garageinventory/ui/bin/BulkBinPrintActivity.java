@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +27,13 @@ public class BulkBinPrintActivity extends AppCompatActivity {
     private Bitmap generatedSheetBitmap;
     private final List<StorageBin> generatedBinsList = new ArrayList<>();
 
+    private static final String[] PAPER_SIZE_OPTIONS = {
+            "A4 Standard Sheet (3 x 8 = 24 Labels)",
+            "A5 Compact Sheet (2 x 6 = 12 Labels)",
+            "Letter Sheet (3 x 8 = 24 Labels)",
+            "Custom Grid Format (Set Cols & Rows)"
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +47,8 @@ public class BulkBinPrintActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         binding.toolbar.setNavigationOnClickListener(v -> finish());
+
+        setupPaperSizeDropdown();
 
         binding.btnGenerateSheet.setOnClickListener(v -> generateBarcodeSheet());
 
@@ -55,48 +66,96 @@ public class BulkBinPrintActivity extends AppCompatActivity {
         binding.getRoot().post(this::generateBarcodeSheet);
     }
 
+    private void setupPaperSizeDropdown() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_dropdown_item_1line,
+                PAPER_SIZE_OPTIONS
+        );
+        binding.actvPaperSize.setAdapter(adapter);
+
+        binding.actvPaperSize.setOnItemClickListener((parent, view, position, id) -> {
+            if (position == 3) { // Custom Grid Format
+                binding.layoutCustomDimensions.setVisibility(View.VISIBLE);
+            } else {
+                binding.layoutCustomDimensions.setVisibility(View.GONE);
+            }
+            generateBarcodeSheet();
+        });
+    }
+
     private void generateBarcodeSheet() {
         try {
             CharSequence startText = binding.etStartNumber.getText();
             CharSequence qtyText = binding.etBinQuantity.getText();
 
             String startStr = startText != null ? startText.toString().trim() : "1";
-            String qtyStr = qtyText != null ? qtyText.toString().trim() : "12";
+            String qtyStr = qtyText != null ? qtyText.toString().trim() : "24";
 
             int startNum = 1;
             try {
                 if (!startStr.isEmpty()) startNum = Integer.parseInt(startStr);
             } catch (Exception ignored) {}
 
-            int qty = 12;
+            int qty = 24;
             try {
                 if (!qtyStr.isEmpty()) qty = Integer.parseInt(qtyStr);
             } catch (Exception ignored) {}
 
             if (qty <= 0) qty = 1;
-            if (qty > 48) qty = 48; // Max per sheet
+            if (qty > 100) qty = 100; // Upper limit safety
+
+            int paperSelection = 0;
+            String selectedFormat = binding.actvPaperSize.getText().toString();
+            for (int i = 0; i < PAPER_SIZE_OPTIONS.length; i++) {
+                if (PAPER_SIZE_OPTIONS[i].equalsIgnoreCase(selectedFormat)) {
+                    paperSelection = i;
+                    break;
+                }
+            }
+
+            int cols = 3;
+            int rowsPerSheet = 8;
+
+            if (paperSelection == 1) { // A5 Sheet
+                cols = 2;
+                rowsPerSheet = 6;
+            } else if (paperSelection == 3) { // Custom
+                CharSequence colText = binding.etCustomColumns.getText();
+                CharSequence rowText = binding.etCustomRows.getText();
+                try {
+                    if (colText != null && !colText.toString().trim().isEmpty()) {
+                        cols = Integer.parseInt(colText.toString().trim());
+                    }
+                    if (rowText != null && !rowText.toString().trim().isEmpty()) {
+                        rowsPerSheet = Integer.parseInt(rowText.toString().trim());
+                    }
+                } catch (Exception ignored) {}
+            }
+
+            if (cols < 1) cols = 1;
+            if (rowsPerSheet < 1) rowsPerSheet = 1;
 
             generatedBinsList.clear();
 
-            // Preview Sheet Dimensions (620 x 877 px for fast, smooth UI preview without OOM)
+            // Preview Canvas Dimensions (620 x 877 px for A4 aspect ratio preview)
             int sheetWidth = 620;
-            int sheetHeight = 877;
+            int sheetHeight = (int) (sheetWidth * 1.414); // A4 aspect ratio
 
             Bitmap bitmap = Bitmap.createBitmap(sheetWidth, sheetHeight, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);
             canvas.drawColor(Color.WHITE);
 
-            int cols = 2;
-            int rows = (int) Math.ceil((double) qty / cols);
+            int actualRows = Math.min((int) Math.ceil((double) qty / cols), rowsPerSheet);
 
-            int margin = 20;
-            int cellWidth = (sheetWidth - (margin * 3)) / cols;
-            int cellHeight = (sheetHeight - (margin * 2) - 50) / Math.max(rows, 1);
+            int margin = 16;
+            int cellWidth = (sheetWidth - (margin * (cols + 1))) / cols;
+            int cellHeight = (sheetHeight - (margin * (actualRows + 1))) / Math.max(actualRows, 1);
 
             Paint textPaint = new Paint();
             textPaint.setAntiAlias(true);
             textPaint.setColor(Color.BLACK);
-            textPaint.setTextSize(14f);
+            textPaint.setTextSize(Math.max(10f, cellHeight * 0.18f));
 
             Paint borderPaint = new Paint();
             borderPaint.setColor(Color.LTGRAY);
@@ -105,7 +164,9 @@ public class BulkBinPrintActivity extends AppCompatActivity {
 
             long now = System.currentTimeMillis();
 
-            for (int i = 0; i < qty; i++) {
+            int displayQty = Math.min(qty, cols * rowsPerSheet);
+
+            for (int i = 0; i < displayQty; i++) {
                 int currentNum = startNum + i;
                 String binCode = QrCodeGenerator.formatFiveDigitBinCode(currentNum);
                 String binName = "BIN " + binCode;
@@ -117,7 +178,7 @@ public class BulkBinPrintActivity extends AppCompatActivity {
                 int row = i / cols;
 
                 int left = margin + col * (cellWidth + margin);
-                int top = margin + row * (cellHeight + margin / 2);
+                int top = margin + row * (cellHeight + margin);
                 int right = left + cellWidth;
                 int bottom = top + cellHeight;
 
@@ -125,14 +186,15 @@ public class BulkBinPrintActivity extends AppCompatActivity {
                 canvas.drawRect(left, top, right, bottom, borderPaint);
 
                 // Draw Bin Name & Code
-                canvas.drawText(binName, left + 10, top + 25, textPaint);
-                canvas.drawText("CODE: " + binCode, left + 10, top + 45, textPaint);
+                canvas.drawText(binName, left + 8, top + (cellHeight * 0.3f), textPaint);
+                canvas.drawText(binCode, left + 8, top + (cellHeight * 0.6f), textPaint);
 
-                // Draw QR Code
+                // Draw QR Code on the right
                 try {
-                    Bitmap qrBitmap = QrCodeGenerator.generateQrCode(binCode, 80, 80);
+                    int qrSize = (int) (cellHeight * 0.75f);
+                    Bitmap qrBitmap = QrCodeGenerator.generateQrCode(binCode, qrSize, qrSize);
                     if (qrBitmap != null) {
-                        canvas.drawBitmap(qrBitmap, left + cellWidth - 90, top + 8, null);
+                        canvas.drawBitmap(qrBitmap, right - qrSize - 6, top + (cellHeight - qrSize) / 2f, null);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -141,11 +203,12 @@ public class BulkBinPrintActivity extends AppCompatActivity {
 
             generatedSheetBitmap = bitmap;
             binding.ivSheetPreview.setImageBitmap(generatedSheetBitmap);
-            Toast.makeText(this, "Generated " + qty + " Bin Barcodes!", Toast.LENGTH_SHORT).show();
+            binding.tvSheetPreviewTitle.setText("Printable Sheet Preview (" + cols + "x" + actualRows + " = " + displayQty + " Labels)");
+            Toast.makeText(this, "Generated " + displayQty + " Barcodes on Sheet!", Toast.LENGTH_SHORT).show();
 
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Error generating barcodes: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Error generating sheet: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
